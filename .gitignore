@@ -5,3 +5,15 @@ __pycache__/
 .DS_Store
 *.out
 *.sh
+
+# virtual env
+.env
+/venv
+
+# jupyter
+*.ipynb_checkpoints
+.jupyter
+
+# misc
+/aop_ner_model
+
