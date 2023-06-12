@@ -27,8 +27,8 @@ class EBC2D:
 
         self.pXY = matrix  # p(X,Y)
         self.N = self.pXY.shape
-        self.cX = np.zeros(self.N[0], dtype=np.int)  # cluster assignment along X axis, C(X)
-        self.cY = np.zeros(self.N[1], dtype=np.int)  # C(Y)
+        self.cX = np.zeros(self.N[0], dtype=int)  # cluster assignment along X axis, C(X)
+        self.cY = np.zeros(self.N[1], dtype=int)  # C(Y)
         self.K = n_clusters  # number of clusters along x and y axis
         self.max_iters = max_iterations
 
@@ -56,15 +56,15 @@ class EBC2D:
             objective: the final objective value
             max_it: the number of iterations that the algorithm has run
         """
-        if verbose: print "Running EBC2D on a 2-d matrix with size %s ..." % str(self.pXY.shape)
+        if verbose: print("Running EBC2D on a 2-d matrix with size %s ..." % str(self.pXY.shape))
         # Step 1: initialization steps
         self.pX, self.pY = self.calculate_marginals(self.pXY)
         if assigned_clusters and len(assigned_clusters) == 2:
-            if verbose: print "Using specified clusters, with cluster number on each axis: %s ..." % self.K
+            if verbose: print("Using specified clusters, with cluster number on each axis: %s ..." % self.K)
             self.cX = np.asarray(assigned_clusters[0])
             self.cY = np.asarray(assigned_clusters[1])
         else:
-            if verbose: print "Randomly initializing clusters, with cluster number on each axis: %s ..." % self.K
+            if verbose: print("Randomly initializing clusters, with cluster number on each axis: %s ..." % self.K)
             self.cX, self.cY = self.initialize_cluster_centers(self.pXY, self.K)
 
         # Step 2: calculate cluster joint and marginal distributions
@@ -92,12 +92,12 @@ class EBC2D:
             objective = self.calculate_objective()
             if verbose: sys.stdout.write(" objective value = %f\n" % (objective))
             if abs(objective - last_objective) < self.objective_tolerance:
-                if verbose: print "EBC2D finished in %d iterations, with final objective value %.4f" % (
-                it + 1, objective)
+                if verbose: print("EBC2D finished in %d iterations, with final objective value %.4f" % (
+                it + 1, objective))
                 return [self.cX.tolist(), self.cY.tolist()], objective, it + 1
             last_objective = objective
-        if verbose: print "EBC2D finished in %d iterations, with final objective value %.4f" % (
-        self.max_iters, objective)
+        if verbose: print("EBC2D finished in %d iterations, with final objective value %.4f" % (
+        self.max_iters, objective))
         return [self.cX.tolist(), self.cY.tolist()], objective, self.max_iters
 
     def compute_row_clusters(self, pXY, qXhatYhat, qXhat, qY_yhat, cY):

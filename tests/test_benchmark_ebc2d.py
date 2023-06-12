@@ -21,8 +21,8 @@ class TestBenchmarkEBC2D(unittest.TestCase):
     def testEbc2dOnSparseMatrix(self):
         ebc = EBC2D(self.matrix, [30, 125], 10, 1e-10, 0.01)
         cXY, objective, it = ebc.run()
-        print "objective: ", objective
-        print "iterations: ", it
+        print("objective: ", objective)
+        print("iterations: ", it)
         # self.assertEquals(len(ebc.pXY.nonzero[0]), 29456)
         self.assertEquals(len(set(cXY[0])), 30)
         self.assertEquals(len(set(cXY[1])), 125)
